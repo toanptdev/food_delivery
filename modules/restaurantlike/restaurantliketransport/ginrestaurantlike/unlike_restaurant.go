@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"rest-api/common"
 	"rest-api/component"
+	"rest-api/modules/restaurant/restaurantstore"
 	"rest-api/modules/restaurantlike/restaurantlikebusiness"
 	"rest-api/modules/restaurantlike/restaurantlikestorage"
 	"rest-api/modules/user/usermodel"
@@ -22,7 +23,8 @@ func UnlikeRestaurant(appCtx component.AppContext) func(ctx *gin.Context) {
 		user := c.MustGet("user").(*usermodel.User)
 
 		store := restaurantlikestorage.NewSqlStore(appCtx.GetMainDBConnection())
-		unlikeRestaurantBusiness := restaurantlikebusiness.NewUserUnlikeRestaurant(store)
+		decreaseStore := restaurantstore.NewSqlStore(appCtx.GetMainDBConnection())
+		unlikeRestaurantBusiness := restaurantlikebusiness.NewUserUnlikeRestaurant(store, decreaseStore)
 
 		err = unlikeRestaurantBusiness.Unlike(c.Request.Context(), user.ID, restaurantID)
 		if err != nil {

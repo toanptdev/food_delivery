@@ -2,7 +2,6 @@ package restaurantbusiness
 
 import (
 	"context"
-	"fmt"
 	"rest-api/common"
 	"rest-api/modules/restaurant/restaurantmodel"
 )
@@ -43,21 +42,21 @@ func (r *listRestaurantBusiness) ListRestaurantByCondition(
 		return nil, err
 	}
 
-	ids := make([]int, len(restaurants))
-
-	for i := range restaurants {
-		ids[i] = restaurants[i].ID
-	}
-
-	mapResLike, err := r.likeStore.GetRestaurantLikes(ctx, ids)
-
-	fmt.Println(mapResLike)
-
-	if mapResLike != nil {
-		for i, item := range restaurants {
-			restaurants[i].LikeCount = mapResLike[item.ID]
-		}
-	}
+	//ids := make([]int, len(restaurants))
+	//
+	//for i := range restaurants {
+	//	ids[i] = restaurants[i].ID
+	//}
+	//
+	//mapResLike, err := r.likeStore.GetRestaurantLikes(ctx, ids)
+	//
+	//fmt.Println(mapResLike)
+	//
+	//if mapResLike != nil {
+	//	for i, item := range restaurants {
+	//		restaurants[i].LikeCount = mapResLike[item.ID]
+	//	}
+	//}
 
 	return restaurants, nil
 }
