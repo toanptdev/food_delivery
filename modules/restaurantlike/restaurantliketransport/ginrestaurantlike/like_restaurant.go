@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"rest-api/common"
 	"rest-api/component"
+	"rest-api/modules/restaurant/restaurantstore"
 	"rest-api/modules/restaurantlike/restaurantlikebusiness"
 	"rest-api/modules/restaurantlike/restaurantlikemodel"
 	"rest-api/modules/restaurantlike/restaurantlikestorage"
@@ -23,7 +24,8 @@ func LikeRestaurant(appCtx component.AppContext) func(ctx *gin.Context) {
 		user := c.MustGet("user").(*usermodel.User)
 
 		store := restaurantlikestorage.NewSqlStore(appCtx.GetMainDBConnection())
-		likeRestaurantBusiness := restaurantlikebusiness.NewUserLikeRestaurant(store)
+		increaseStore := restaurantstore.NewSqlStore(appCtx.GetMainDBConnection())
+		likeRestaurantBusiness := restaurantlikebusiness.NewUserLikeRestaurant(store, increaseStore)
 
 		data := restaurantlikemodel.RestaurantLike{
 			RestaurantID: restaurantID,
